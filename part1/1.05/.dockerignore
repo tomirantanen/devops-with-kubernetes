@@ -1,0 +1,9 @@
+# Ignore all files
+*
+# Allow only selected
+!package.json
+!package-lock.json
+!src
+!tsconfig.json
+!tsconfig.build.json
+!static
