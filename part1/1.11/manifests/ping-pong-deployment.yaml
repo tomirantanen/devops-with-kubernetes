@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ping-pong
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ping-pong
+  template:
+    metadata:
+      labels:
+        app: ping-pong
+    spec:
+      volumes:
+        - name: shared-ping-count
+          persistentVolumeClaim:
+            claimName: ping-count-claim
+      containers:
+        - name: ping-pong
+          image: tomirantanen/ping-pong:1.11
+          imagePullPolicy: Always
+          volumeMounts:
+          - name: shared-ping-count
+            mountPath: /app/files

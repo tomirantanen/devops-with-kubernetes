@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-output
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: log-output
+  template:
+    metadata:
+      labels:
+        app: log-output
+    spec:
+      volumes:
+        - name: shared-ping-count
+          persistentVolumeClaim:
+            claimName: ping-count-claim
+      containers:
+        - name: log-output
+          image: tomirantanen/log-output:1.11
+          imagePullPolicy: Always
+          volumeMounts:
+          - name: shared-ping-count
+            mountPath: /app/files
