@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: todo-project
+  name: todo-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-api
+  template:
+    metadata:
+      labels:
+        app: todo-api
+    spec:
+      volumes:
+        - name: image-volume
+          emptyDir: {}
+      containers:
+        - name: todo-api
+          image: tomirantanen/todo-api:2.08
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: todo-api-secret
+            - configMapRef:
+                name: todo-app-config
+          volumeMounts:
+            - name: image-volume
+              mountPath: /app/images
